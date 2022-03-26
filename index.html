@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
+    <title>CAT API</title>
+  </head>
+  <body>
+    <div class="appBody">
+      <div class="conatiner">
+        <div class="head">
+          <h2 class="heading">Search Cats</h2>
+          <div id="navBar" class="navBar">
+            <select name="categorySelector" id="categorySelector">
+              <option class="optionGroup" value="none" selected disabled>
+                Category
+              </option>
+            </select>
+
+            <select
+              name="breedSelector"
+              id="breedSelector"
+              class="breedSelector"
+            >
+              <option class="breedGroup" value="none" selected disabled>
+                Breed
+              </option>
+            </select>
+
+            <select name="typeSelector" id="typeSelector">
+              <option class="typeGroup" value="null" selected disabled>
+                Type
+              </option>
+              <option value="all">All</option>
+              <option value="gif">gif</option>
+              <option value="jpg">jpg</option>
+              <option value="png">png</option>
+            </select>
+
+            <select name="orderSelector" id="orderSelector">
+              <option class="orderGroup" value="null" selected disabled>
+                Order
+              </option>
+              <option value="random">Random</option>
+              <option value="desc">Desc</option>
+              <option value="asc">Asc</option>
+            </select>
+
+            <select name="limitSelector" id="limitSelector">
+              <option class="limitGroup" value="null" selected disabled>
+                Limit
+              </option>
+              <option value="3">3</option>
+              <option value="6">6</option>
+              <option value="9">9</option>
+            </select>
+            <button id="search" class="search">Search</button>
+          </div>
+        </div>
+
+        <div class="body">
+          <div id="imageCollection" class="imageCollection">
+            <div class="image_container">
+              <img src="https://cdn2.thecatapi.com/images/23q.jpg" />
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination">ss</div>
+      </div>
+    </div>
+  </body>
+</html>
