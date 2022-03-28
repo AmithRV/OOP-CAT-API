@@ -1,7 +1,10 @@
 class SearchEngine {
     constructor() {
+
+        this.imageArray = 0;
+        this.paginationUrl;
+
         this.loadURL = async function (url) {
-            console.log(url);
             let result = [];
             await fetch(url)
                 .then(response => response.json())
@@ -11,17 +14,54 @@ class SearchEngine {
             return result;
         };
 
-        this.page = {
-            count: 0,
+        this.pageCount = function (url, limit) {
+            console.log('url : ', url);
+            this.loadURL(url).then(e => {
+                this.setPage(e.length, limit)
+            });
+        };
 
-            get getCount() {
-                return this.count;
-            },
+        this.setPage = function (imageCount, limit) {
+            let pages = parseInt(imageCount / limit);
+            const list = document.getElementById("pagination");
 
-            set setCount(value) {
-                this.count = value;
+            while (list.hasChildNodes()) {
+                list.removeChild(list.firstChild);
+            }
+
+            for (let i = 1; i <= pages; i++) {
+                const page = document.createElement('a');
+                page.className = 'page';
+                page.innerHTML = i;
+                page.tabIndex = '1';
+                page.onclick = () => { this.loadPage(i, limit) }
+                const pageCover = document.getElementById('pagination');
+                pageCover.append(page);
+
             }
         };
+
+        this.loadPage = function (pageNumber, limit) {
+            let baseUrl = this.paginationUrl;
+            let newUrl = baseUrl + `&limit=${limit}&page=${pageNumber}`;
+            console.log(`baseurl :  ${newUrl}`)
+            const list = document.getElementById("imageCollection");
+            while (list.hasChildNodes()) {
+                list.removeChild(list.firstChild);
+            }
+
+            let result = this.loadURL(newUrl);
+            result.then((e) => {
+                e.map((element) => {
+                    const image = document.createElement("img");
+                    image.src = element.url;
+                    let cover = document.createElement("div");
+                    cover.className = 'image_container'
+                    cover.append(image);
+                    document.getElementById('imageCollection').append(cover)
+                });
+            })
+        }
     }
 }
 
@@ -84,16 +124,16 @@ let defaultLoader = function () {
         } if (category == "none") {
             category = '';
         } if (breed == "none") {
-            breed = ' ';
+            breed = '';
         }
 
         const list = document.getElementById("imageCollection");
         while (list.hasChildNodes()) {
             list.removeChild(list.firstChild);
         }
-        console.log(`category : ${category}, breed:${breed},  type : ${type}, order: ${order}, limit : ${limit}`);
 
-        let result = search.loadURL(`https://api.thecatapi.com/v1/images/search?limit=${limit}&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`);
+        let url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`
+        let result = search.loadURL(url);
         result.then((e) => {
             e.map((element) => {
                 const image = document.createElement("img");
@@ -102,15 +142,11 @@ let defaultLoader = function () {
                 cover.className = 'image_container'
                 cover.append(image);
                 document.getElementById('imageCollection').append(cover)
-            })
+            });
         })
+        search.paginationUrl = `https://api.thecatapi.com/v1/images/search?order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`;
 
-        let pagecount = search.loadURL(`https://api.thecatapi.com/v1/images/search?limit=${100}&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`);
-        pagecount.then(async (e) => {
-            console.log(e.length);
-            search.setCount = e.length;
-        });
-        console.log(search.getCount)
+        search.pageCount(`https://api.thecatapi.com/v1/images/search?limit=100&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`, limit);
     };
 
     (function () {

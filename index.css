@@ -65,12 +65,20 @@ body {
   overflow: scroll;
 }
 
-.pagination {
+.paginationCover {
   margin-top: 15px;
   margin-left: 1.5em;
   margin-right: 1.5em;
-  border: 1px solid red;
+  border: 1px solid rgb(128 126 126 / 62%);
+
+  box-shadow: 0px 0px 48px -6px rgba(0, 0, 0, 0.75);
   height: 40px;
+  width: 86vw;
+  overflow: scroll;
+}
+.paginationCover::-webkit-scrollbar {
+  border: none;
+  display: none;
 }
 
 select {
@@ -111,4 +119,56 @@ img {
   width: 100%;
   height: 100%;
   object-fit: fill;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  width: fit-content;
+  align-items: center;
+}
+.pagination a {
+  border-radius: 4px;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.page {
+  background-color: rgb(207, 204, 204);
+  border: 1px solid rgba(133, 133, 133, 0.698);
+  margin-left: 10px;
+  height: 5px;
+  width: 5px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.page:hover {
+  background-color: red;
+}
+
+.page:active {
+  background-color: green;
+}
+
+.cover {
+  place-items: center;
+  margin: 0 20px 0 20px;
+  width: 80vw;
+  overflow: scroll;
+  display: grid;
+}
+
+.cover::-webkit-scrollbar {
+  border: none;
+}
+
+.pagination > a[tabindex]:focus {
+  background-color: red;
 }
