@@ -63,6 +63,7 @@ body {
   margin-right: 1.5em;
   margin-top: 1.5em;
   overflow: scroll;
+  overflow-x: hidden;
 }
 
 .paginationCover {
@@ -171,4 +172,13 @@ img {
 
 .pagination > a[tabindex]:focus {
   background-color: red;
+}
+
+.emptyPage {
+  height: 55vh;
+  width: 80vw;
+  display: grid;
+  place-items: center;
+  font-size: 50px;
+  text-shadow: 2px 2px 8px #120908ad;
 }

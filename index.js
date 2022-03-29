@@ -2,7 +2,7 @@ class SearchEngine {
     constructor() {
 
         this.imageArray = 0;
-        this.paginationUrl;
+        this.paginationUrl; // sets the base url 
 
         this.loadURL = async function (url) {
             let result = [];
@@ -17,7 +17,17 @@ class SearchEngine {
         this.pageCount = function (url, limit) {
             console.log('url : ', url);
             this.loadURL(url).then(e => {
-                this.setPage(e.length, limit)
+                if (e.length === 0) {
+                    console.log('result is empty');
+                    const emptyPage = document.createElement('div');
+                    emptyPage.className = 'emptyPage';
+                    emptyPage.innerHTML = 'NO RESULT FOUND';
+                    const imageCollection = document.getElementById('imageCollection');
+                    imageCollection.append(emptyPage);
+                    this.setPage(e.length, limit);
+                } else {
+                    this.setPage(e.length, limit)
+                }
             });
         };
 
@@ -134,6 +144,7 @@ let defaultLoader = function () {
 
         let url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`
         let result = search.loadURL(url);
+
         result.then((e) => {
             e.map((element) => {
                 const image = document.createElement("img");
@@ -144,16 +155,16 @@ let defaultLoader = function () {
                 document.getElementById('imageCollection').append(cover)
             });
         })
-        search.paginationUrl = `https://api.thecatapi.com/v1/images/search?order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`;
+        search.paginationUrl = `https://api.thecatapi.com/v1/images/search?order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`; // sets the base url which does not contain limit
 
-        search.pageCount(`https://api.thecatapi.com/v1/images/search?limit=100&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`, limit);
+        search.pageCount(`https://api.thecatapi.com/v1/images/search?limit=100&order=${order}&mime_types=${type}&category_ids=${category}&breed_ids=${breed}`, limit);  // setting the pagecount 
     };
 
     (function () {
         let temp = document.getElementById('navBar').getElementsByTagName('button')[0];
         temp.addEventListener('click', loader);
 
-        let searchResult = search.loadURL(`https://api.thecatapi.com/v1/images/search?limit=8`);
+        let searchResult = search.loadURL(`https://api.thecatapi.com/v1/images/search?limit=9`);
 
         searchResult.then((e) => {
             e.map((element) => {
