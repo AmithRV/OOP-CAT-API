@@ -17,7 +17,7 @@ class SearchEngine {
         this.pageCount = function (url, limit) {
             console.log('url : ', url);
             this.loadURL(url).then(e => {
-                if (e.length === 0) {
+                if (e.length === 0) {       // create a page when no result is found
                     console.log('result is empty');
                     const emptyPage = document.createElement('div');
                     emptyPage.className = 'emptyPage';
